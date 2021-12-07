@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>画板</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="canvas">
+    </div>
+    <script>
+        canvas.onclick = (e) => {
+            console.log(e.clientX)
+            console.log(e.clientY)
+            // 鼠标点击获得的坐标值
+            let div = document.createElement('div')
+            // 目前是创建在内存中一个变量名为div的元素
+            div.style.height = '6px'
+            div.style.width = '6px'
+            div.style.backgroundColor = 'red'
+            div.style.position = 'absolute'
+            div.style.left = e.clientX + 'px'
+            div.style.top = e.clientY + 'px'
+            div.style.marginLeft = '-3px'
+            div.style.marginTop = '-3px'
+            div.style.borderRadius = '50%'
+            // 指定div的css样式，相对定位等。
+            canvas.appendChild(div)
+            // 添加div到html中，意思为在id为canvas的标签中添加孩子标签div
+        }
+        // 实现每次点击都会创建一个div，样式为圆圈。
+    </script>
+</body>
+
+</html>
