@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <canvas id="canvas" width="100" height="100"></canvas>
+    <script>
+        var canvas = document.getElementById('canvas')
+        canvas.width = document.documentElement.clientWidth
+        canvas.height = document.documentElement.clientHeight
+        // 获取屏幕宽高，设置为canvas的宽高
+
+        let painting = false
+
+        // 设定一个指示，当painting为true时，可以继续画，当painting为false时，停止作画
+
+        var ctx = canvas.getContext('2d')
+        ctx.fillStyle = 'black'
+        ctx.strokeStyle = 'none'
+        ctx.lineCap = 'round'
+        ctx.lineWidth = 8
+        // 实现画线的宽度，填充颜色，切角等。
+
+        function drawLine(x1, y1, x2, y2) {
+            ctx.beginPath()
+            ctx.moveTo(x1, y1)
+            ctx.lineTo(x2, y2)
+            ctx.stroke()
+        }
+        // 实现画线功能两点之间连线
+
+        var isTouchDevice = 'ontouchstart' in document.documentElement
+        // 声明一个变量，用来判定是否支持触屏。（手机页面）
+
+        let last
+        // 记录上次的两个点
+
+        canvas.onmousedown = (e) => {
+            painting = true
+            last = [e.clientX, e.clientY]
+
+        }
+        // 当鼠标点击时，painting的值为true，同时记录onmousedown时的last两个值
+
+        canvas.onmouseup = () => {
+            painting = false
+        }
+        // 当鼠标松开时，painting的值为false
+
+
+        if (isTouchDevice) {
+
+            canvas.ontouchstart = (e) => {
+                let x = e.touches[0].clientX
+                let y = e.touches[0].clientY
+                last = [x, y]
+            }
+            // 记录开始触摸时的last的值
+
+            canvas.ontouchmove = (e) => {
+                let x = e.touches[0].clientX
+                let y = e.touches[0].clientY
+                drawLine(last[0], last[1], x, y)
+                last = [x, y]
+            }
+        } else {
+            // 如果支持触屏（手机端），就执行上面代码，否则执行下面代码，判定是否可以触屏
+
+            canvas.onmousemove = (e) => {
+                if (painting === true) {
+
+                    // 判定当painting的值为true时，即鼠标点击时，开始进行绘画。
+
+                    drawLine(last[0], last[1], e.clientX, e.clientY)
+                    last = [e.clientX, e.clientY]
+
+
+                } else {
+
+                }
+            }
+        }
+
+
+
+
+
+    </script>
+</body>
+
+</html>
